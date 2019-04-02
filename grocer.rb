@@ -1,3 +1,5 @@
+require 'pry'
+
 def consolidate_cart(cart)
 
   products = []
@@ -27,11 +29,17 @@ def apply_coupons(cart, coupons)
       cart["#{item_with_discount[:item]} W/COUPON"] = {
         :price => item_with_discount[:cost],
         :clearance => cart[item_with_discount[:item]][:clearance],
-        :count => (cart[item_with_discount[:item]][:count]/item_with_discount[:num]).round(1)
+        :count => ((cart[item_with_discount[:item]][:count]/item_with_discount[:num]).to_f).ceil
       }
       cart[item_with_discount[:item]][:count] = cart[item_with_discount[:item]][:count] - item_with_discount[:num]
 
 =begin
+
+(5/3.to_f).ceil
+
+if cart[item_with_discount[:item]][:price]*cart[item_with_discount[:item]][:count] > item_with_discount[:num]*2*item_with_discount[:cost]
+
+
       It would make sense to add another if statement to remove items from the cart that have :count 0, after the coupons are applied.
         if cart[item_with_discount[:item]][:count] == 0
           cart.delete(item_with_discount[:item])
